@@ -1,18 +1,17 @@
-.footer {
+.photo-cards {
+  padding: 25px 0 0 0;
   max-width: 880px;
   margin: 0 auto;
-  padding: 66px 0 60px 0;
 }
 
 @media screen and (max-width: 950px) {
-  .footer {
-    max-width: 581px;
+  .photo-cards {
+    max-width: 660px;
   }
 }
 
 @media screen and (max-width: 660px) {
-  .footer {
-    padding: 48px 0 36px 0;
-    max-width: 282px;
+  .photo-cards {
+    max-width: 320px;
   }
 }
