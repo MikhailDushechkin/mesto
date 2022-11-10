@@ -11,6 +11,11 @@
   align-self: center;
   padding: 0;
   cursor: pointer;
+  transition: opacity 0.4s ease;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 679px) {
