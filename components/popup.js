@@ -30,7 +30,7 @@ function saveForm(evt) {
   profileName.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
 
-  closePopUp(evt);
+  closePopUp();
 }
 
 profileEditButton.addEventListener('click', openPopUp);
