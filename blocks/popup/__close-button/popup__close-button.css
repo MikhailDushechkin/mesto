@@ -11,6 +11,15 @@
   height: 32px;
   top: -40px;
   right: -40px;
+  transition: opacity 0.3s ease;
+}
+
+.popup__close-button:hover {
+  opacity: 0.8;
+}
+
+.popup__close-button:focus {
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 660px) {

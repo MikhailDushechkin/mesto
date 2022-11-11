@@ -16,6 +16,12 @@
   margin: 0;
 }
 
+.edit-form__input:focus {
+  padding: 5px 0 8px 5px;
+  border: rgb(156, 156, 221) 3px solid;
+  border-radius: 5px;
+}
+
 @media screen and (max-width: 660px) {
   .edit-form__input {
     width: 238px;
