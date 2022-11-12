@@ -2,6 +2,7 @@
   background: url(../../../images/edit-form/edit-form-close-button.svg);
   background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
   position: absolute;
   margin: 0;
   padding: 0;
@@ -15,11 +16,11 @@
 }
 
 .popup__close-button:hover {
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
 .popup__close-button:focus {
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 660px) {
