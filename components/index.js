@@ -9,7 +9,6 @@ let popUpCloseButton = popUp.querySelector('.popup__close-button');
 let editForm = document.querySelector('.edit-form');
 let inputName = editForm.querySelector('#profile-name');
 let inputDescription = editForm.querySelector('#profile-description');
-let saveFormButton = editForm.querySelector('.edit-form__save-button');
 
 function openPopUp() {
   popUp.classList.add('popup_opened');
@@ -30,9 +29,9 @@ function saveForm(evt) {
   profileName.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
 
-  closePopUp();
+  closePopUp(evt);
 }
 
 profileEditButton.addEventListener('click', openPopUp);
 popUpCloseButton.addEventListener('click', closePopUp);
-saveFormButton.addEventListener('click', saveForm);
+editForm.addEventListener('submit', saveForm);
