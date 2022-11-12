@@ -2,13 +2,10 @@
   background: url(../../../images/cards/cards-like.svg);
   background-repeat: no-repeat;
   background-position: center;
-  position: absolute;
   box-sizing: border-box;
   border: none;
   cursor: pointer;
   padding: 0;
-  right: 20px;
-  bottom: 35px;
   width: 22px;
   height: 19px;
 }

@@ -20,7 +20,6 @@
 @import url(../blocks/photo-cards/photo-cards.css);
 @import url(../blocks/photo-cards/__list/photo-cards__list.css);
 @import url(../blocks/photo-cards/__item/photo-cards__item.css);
-@import url(../blocks/photo-cards/__photo-block/photo-cards__photo-block.css);
 @import url(../blocks/photo-cards/__photo/photo-cards__photo.css);
 @import url(../blocks/photo-cards/__description/photo-cards__description.css);
 @import url(../blocks/photo-cards/__text/photo-cards__text.css);
