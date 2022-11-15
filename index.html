@@ -85,7 +85,20 @@
         </fieldset>
         <button type="submit" class="form__save-button">Сохранить</button>
       </form>
-      <button type="button" class="popup__close-button" aria-label="Закрыть поп-ап"></button>
+      <button type="button" class="popup__close-button popup-edit__close-button" aria-label="Закрыть поп-ап"></button>
+    </div>
+  </div>
+  <div class="popup add-popup">
+    <div class="popup__container">
+      <form class="form add-cards-form" name="photo">
+        <h2 class="form__title">Новое место</h2>
+        <fieldset class="form__fieldset">
+          <input type="text" id="photo-name" class="form__input" placeholder="Название" name="name" minlength="3" maxlength="30" required>
+          <input type="text" id="photo-link" class="form__input" placeholder="Ссылка на картинку" name="link" minlength="2" maxlength="150" required>
+        </fieldset>
+        <button type="submit" class="form__save-button">Создать</button>
+      </form>
+      <button type="button" class="popup__close-button popup-add__close-button" aria-label="Закрыть поп-ап"></button>
     </div>
   </div>
   <script src="./components/index.js"></script>
