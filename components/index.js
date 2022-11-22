@@ -126,6 +126,14 @@ photoCards.addEventListener('click', evt => {
   evt.target.classList.toggle('photo-cards__button-like_active');
 });
 
+
+//удаление карточек с фото по клику на "урну"
+photoCards.addEventListener('click', evt => {
+  const deletePhoto = evt.target.closest('.photo-cards__button-del');
+  if(!deletePhoto) return;
+  evt.target.closest('.photo-cards__item').remove();
+})
+
 profileEditButton.addEventListener('click', openPopUpEditInfo);
 profileEditCloseButton.addEventListener('click', closePopUpEditInfo);
 profileEditForm.addEventListener('submit', saveProfileEditForm);
