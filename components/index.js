@@ -117,6 +117,15 @@ function addPhotoByUser(evt) {
   closePopUpAddPhoto();
 }
 
+//находим секцию с карточками
+const photoCards = document.querySelector('.photo-cards');
+//ставит или снимает лайк на опредленной карточке
+photoCards.addEventListener('click', evt => {
+  const likePhotoTarget = evt.target.closest('.photo-cards__button-like');
+  if(!likePhotoTarget) return;
+  evt.target.classList.toggle('photo-cards__button-like_active');
+});
+
 profileEditButton.addEventListener('click', openPopUpEditInfo);
 profileEditCloseButton.addEventListener('click', closePopUpEditInfo);
 profileEditForm.addEventListener('submit', saveProfileEditForm);
