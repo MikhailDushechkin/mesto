@@ -1,28 +1,62 @@
-let profile = document.querySelector('.profile');
-let profileEditButton = profile.querySelector('.profile__edit-button');
-let addPhotoButton = profile.querySelector('.profile__add-button');
-let profileName = profile.querySelector('.profile__name');
-let profileDescription = profile.querySelector('.profile__description');
+const profile = document.querySelector('.profile');
+//кнопка редактирования профиля
+const profileEditButton = profile.querySelector('.profile__edit-button');
+//кнопка добавления фотографий
+const addPhotoButton = profile.querySelector('.profile__add-button');
+//блок с имененем профиля
+const profileName = profile.querySelector('.profile__name');
+//блок с описанием профиля
+const profileDescription = profile.querySelector('.profile__description');
 
-let profileEditPopUp = document.querySelector('.edit-popup');
-let profileEditCloseButton = profileEditPopUp.querySelector('.popup-edit__close-button');
+const profileEditPopUp = document.querySelector('.edit-popup');
+//кнопка закрытия поп-ап с редактированием профиля
+const profileEditCloseButton = profileEditPopUp.querySelector('.popup-edit__close-button');
 
-let addPhotoPopUp = document.querySelector('.add-popup');
-let addPhotoCloseButton = addPhotoPopUp.querySelector('.popup-add__close-button');
+const addPhotoPopUp = document.querySelector('.add-popup');
+//кнопка закрытия поп-ап с добавлением фотографий
+const addPhotoCloseButton = addPhotoPopUp.querySelector('.popup-add__close-button');
 
-let profileEditForm = document.querySelector('.edit-form');
-let addPhotoForm = document.querySelector('.add-cards-form');
-let inputName = profileEditForm.querySelector('#profile-name');
-let inputDescription = profileEditForm.querySelector('#profile-description');
+//форма редактирования профиля
+const profileEditForm = document.querySelector('.edit-form');
+//форма добавления фотографий
+const addPhotoForm = document.querySelector('.add-cards-form');
+//инпут для ввода имени профиля в форме
+const inputName = profileEditForm.querySelector('#profile-name');
+//инпут для ввода описания профиля в форме
+const inputDescription = profileEditForm.querySelector('#profile-description');
+//инпут для ввода названия фотографии
+const inputPhotoName = addPhotoPopUp.querySelector('#photo-name');
+//инпут для ввода ссылки фотографии
+const inputPhotoLink = addPhotoPopUp.querySelector('#photo-link');
 
-function openPopUpAddPhoto() {
-  addPhotoPopUp.classList.add('popup_opened');
-}
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
-function closePopUpAddPhoto() {
-  addPhotoPopUp.classList.remove('popup_opened');
-}
-
+//функция открытия поп-ап редактирования профиля
 function openPopUpEditInfo() {
   profileEditPopUp.classList.add('popup_opened');
 
@@ -31,11 +65,11 @@ function openPopUpEditInfo() {
 
   inputName.focus();
 }
-
+//функция закрытия поп-ап редактирования профиля
 function closePopUpEditInfo() {
-  profileEditPopUp.classList.remove('popup_opened');
+    profileEditPopUp.classList.remove('popup_opened');
 }
-
+//функция сохранения введенных данных пользователем в форме редактирования профиля
 function saveProfileEditForm(evt) {
   evt.preventDefault();
 
@@ -45,9 +79,50 @@ function saveProfileEditForm(evt) {
   closePopUpEditInfo();
 }
 
+//функция открытия поп-ап добавления фото
+function openPopUpAddPhoto() {
+  addPhotoPopUp.classList.add('popup_opened');
+}
+//функция закрытия поп-ап добавления фото
+function closePopUpAddPhoto() {
+  addPhotoPopUp.classList.remove('popup_opened');
+}
+
+const photoList = document.querySelector('.photo-cards__list');
+
+//функция добавления фотографий
+function addPhotoCards(name, link) {
+  const addPhotoTemplate = document.querySelector('#photo-cards-element').content;
+  const addPhotoElement = addPhotoTemplate.cloneNode(true);
+
+  addPhotoElement.querySelector('.photo-cards__photo').src = link;
+  addPhotoElement.querySelector('.photo-cards__text').textContent = name;
+
+  photoList.prepend(addPhotoElement);
+}
+
+function initialPhotoCards(arr) {
+  arr.forEach(element => {
+    addPhotoCards(element.name, element.link);
+  });
+}
+
+
+//функция добавления фотографий через поп-ап пользователем
+function addPhotoByUser(evt) {
+  evt.preventDefault();
+
+  addPhotoCards(inputPhotoName.value, inputPhotoLink.value);
+
+  closePopUpAddPhoto();
+}
+
 profileEditButton.addEventListener('click', openPopUpEditInfo);
 profileEditCloseButton.addEventListener('click', closePopUpEditInfo);
 profileEditForm.addEventListener('submit', saveProfileEditForm);
 
 addPhotoButton.addEventListener('click', openPopUpAddPhoto);
 addPhotoCloseButton.addEventListener('click', closePopUpAddPhoto);
+addPhotoPopUp.addEventListener('submit', addPhotoByUser);
+
+initialPhotoCards(initialCards);
