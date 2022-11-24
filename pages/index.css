@@ -39,3 +39,7 @@
 @import url(../blocks/form/__fieldset/form__fieldset.css);
 @import url(../blocks/form/__input/form__input.css);
 @import url(../blocks/form/__save-button/form__save-button.css);
+
+@import url(../blocks/overlay-photo/__container/overlay-photo__container.css);
+@import url(../blocks/overlay-photo/__image/overlay-photo__image.css);
+@import url(../blocks/overlay-photo/__description/overlay-photo__description.css);
