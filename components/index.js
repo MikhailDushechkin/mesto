@@ -37,11 +37,11 @@ const profileDescription = profile.querySelector('.profile__description');
 
 //поп-ап редактирования профиля
 const profileEditPopUp = document.querySelector('.edit-popup');
-const profileEditCloseButton = profileEditPopUp.querySelector('.popup-edit__close-button');
+const profileEditCloseButton = profileEditPopUp.querySelector('.edit-popup__close-button');
 
 //поп-ап добавления фотографий
 const addPhotoPopUp = document.querySelector('.add-popup');
-const addPhotoCloseButton = addPhotoPopUp.querySelector('.popup-add__close-button');
+const addPhotoCloseButton = addPhotoPopUp.querySelector('.add-popup__close-button');
 
 //форма редактирования профиля
 const profileEditForm = document.querySelector('.edit-form');
@@ -91,6 +91,7 @@ function saveProfileEditForm(evt) {
 //функция открытия поп-ап добавления фото
 function openPopUpAddPhoto() {
   addPhotoPopUp.classList.add('popup_opened');
+  addPhotoForm.reset();
 };
 //функция закрытия поп-ап добавления фото
 function closePopUpAddPhoto() {
@@ -149,6 +150,7 @@ function openOverlayPhotoPopUp() {
     item.addEventListener('click', (e) => {
       overlayPhotoPopUp.classList.add('popup_opened');
       overlayPhotoImage.src = e.target.src;
+      overlayPhotoImage.alt = e.target.alt;
       overlayPhotoDescription.textContent = e.target.alt;
     })
   });
