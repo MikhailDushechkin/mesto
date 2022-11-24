@@ -91,6 +91,7 @@ function saveProfileEditForm(evt) {
 //функция открытия поп-ап добавления фото
 function openPopUpAddPhoto() {
   addPhotoPopUp.classList.add('popup_opened');
+  addPhotoForm.reset();
 };
 //функция закрытия поп-ап добавления фото
 function closePopUpAddPhoto() {
@@ -149,6 +150,7 @@ function openOverlayPhotoPopUp() {
     item.addEventListener('click', (e) => {
       overlayPhotoPopUp.classList.add('popup_opened');
       overlayPhotoImage.src = e.target.src;
+      overlayPhotoImage.alt = e.target.alt;
       overlayPhotoDescription.textContent = e.target.alt;
     })
   });
