@@ -25,6 +25,9 @@ const initialCards = [
   }
 ];
 
+//шаблон карточки с фото
+const addPhotoTemplate = document.querySelector('#photo-cards-element').content;
+
 const profile = document.querySelector('.profile');
 //кнопка редактирования профиля
 const profileEditButton = profile.querySelector('.profile__edit-button');
@@ -65,9 +68,18 @@ const overlayPhotoImage = overlayPhotoPopUp.querySelector('.overlay-photo__image
 const overlayPhotoDescription = overlayPhotoPopUp.querySelector('.overlay-photo__description');
 const overlayPhotoCloseButton = overlayPhotoPopUp.querySelector('.overlay-photo__close-button');
 
+//открытие поп-апов
+function openPopUp(popup) {
+  popup.classList.add('popup_opened');
+};
+//закрытие поп-апов
+function closePopUp(popup) {
+  popup.classList.remove('popup_opened');
+}
+
 //функция открытия поп-ап редактирования профиля
 function openPopUpEditInfo() {
-  profileEditPopUp.classList.add('popup_opened');
+  openPopUp(profileEditPopUp);
 
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
@@ -76,7 +88,7 @@ function openPopUpEditInfo() {
 };
 //функция закрытия поп-ап редактирования профиля
 function closePopUpEditInfo() {
-    profileEditPopUp.classList.remove('popup_opened');
+    closePopUp(profileEditPopUp);
 };
 //функция сохранения введенных данных пользователем в форме редактирования профиля
 function saveProfileEditForm(evt) {
@@ -85,22 +97,21 @@ function saveProfileEditForm(evt) {
   profileName.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
 
-  closePopUpEditInfo();
+  closePopUp(profileEditPopUp);
 };
 
 //функция открытия поп-ап добавления фото
 function openPopUpAddPhoto() {
-  addPhotoPopUp.classList.add('popup_opened');
+  openPopUp(addPhotoPopUp);
   addPhotoForm.reset();
 };
 //функция закрытия поп-ап добавления фото
 function closePopUpAddPhoto() {
-  addPhotoPopUp.classList.remove('popup_opened');
+  closePopUp(addPhotoPopUp);
 };
 
 //функция добавления фотографий
 function addPhotoCards(name, link) {
-  const addPhotoTemplate = document.querySelector('#photo-cards-element').content;
   const addPhotoElement = addPhotoTemplate.cloneNode(true);
 
   addPhotoElement.querySelector('.photo-cards__photo').src = link;
@@ -122,7 +133,7 @@ function addPhotoByUser(evt) {
 
   addPhotoCards(inputPhotoName.value, inputPhotoLink.value);
 
-  closePopUpAddPhoto();
+  closePopUp(addPhotoPopUp);
 };
 
 //функция для лайка
@@ -145,20 +156,23 @@ initialPhotoCards(initialCards);
 const photoCardsImage = photoCardsList.querySelectorAll('.photo-cards__photo');
 
 //функция открытия поп-ап с фото
-function openOverlayPhotoPopUp() {
-  photoCardsImage.forEach(item => {
-    item.addEventListener('click', (e) => {
-      overlayPhotoPopUp.classList.add('popup_opened');
-      overlayPhotoImage.src = e.target.src;
-      overlayPhotoImage.alt = e.target.alt;
-      overlayPhotoDescription.textContent = e.target.alt;
-    })
-  });
+function openOverlayPhotoPopUp(event) {
+  const photoImage = event.target.closest('.photo-cards__photo');
+  if(!photoImage) return;
+
+  overlayPhotoImage.src = event.target.src;
+  overlayPhotoImage.alt = event.target.alt;
+  overlayPhotoDescription.textContent = event.target.alt;
+
+  openPopUp(overlayPhotoPopUp);
 }
 
 //функция закрытия поп-ап с фото
 function closeOverlayPhotoPopUp() {
-  overlayPhotoPopUp.classList.remove('popup_opened');
+  closePopUp(overlayPhotoPopUp);
+
+  overlayPhotoImage.removeAttribute('src');
+  overlayPhotoImage.removeAttribute('alt');
 }
 
 profileEditButton.addEventListener('click', openPopUpEditInfo);
