@@ -40,11 +40,12 @@ const profileDescription = profile.querySelector('.profile__description');
 
 //поп-ап редактирования профиля
 const profileEditPopUp = document.querySelector('.edit-popup');
-const profileEditCloseButton = profileEditPopUp.querySelector('.edit-popup__close-button');
 
 //поп-ап добавления фотографий
 const addPhotoPopUp = document.querySelector('.add-popup');
-const addPhotoCloseButton = addPhotoPopUp.querySelector('.add-popup__close-button');
+
+//все кнопки закрытия поп-апов
+const closeButtons = document.querySelectorAll('.popup__close-button');
 
 //форма редактирования профиля
 const profileEditForm = document.querySelector('.edit-form');
@@ -59,14 +60,13 @@ const inputPhotoName = addPhotoPopUp.querySelector('#photo-name');
 //инпут для ввода ссылки фотографии
 const inputPhotoLink = addPhotoPopUp.querySelector('#photo-link');
 
-//Список с фото карточками
+//список с фото карточками
 const photoCardsList = document.querySelector('.photo-cards__list');
 
 //поп-ап с фото
 const overlayPhotoPopUp = document.querySelector('.overlay-photo');
 const overlayPhotoImage = overlayPhotoPopUp.querySelector('.overlay-photo__image');
 const overlayPhotoDescription = overlayPhotoPopUp.querySelector('.overlay-photo__description');
-const overlayPhotoCloseButton = overlayPhotoPopUp.querySelector('.overlay-photo__close-button');
 
 //функция инициализации карточек из "заготовки"
 function initialPhotoCards(item) {
@@ -103,7 +103,12 @@ function openPopUp(popup) {
 //закрытие поп-апов
 function closePopUp(popup) {
   popup.classList.remove('popup_opened');
-}
+};
+closeButtons.forEach(button => {
+  const popup = button.closest('.popup');
+
+  button.addEventListener('click', () => closePopUp(popup));
+});
 
 //функция открытия поп-ап редактирования профиля
 function openPopUpEditInfo() {
@@ -178,11 +183,7 @@ function closeOverlayPhotoPopUp() {
 }
 
 profileEditButton.addEventListener('click', openPopUpEditInfo);
-profileEditCloseButton.addEventListener('click', closePopUpEditInfo);
 profileEditForm.addEventListener('submit', saveProfileEditForm);
 
 addPhotoButton.addEventListener('click', openPopUpAddPhoto);
-addPhotoCloseButton.addEventListener('click', closePopUpAddPhoto);
 addPhotoPopUp.addEventListener('submit', addPhotoByUser);
-
-overlayPhotoCloseButton.addEventListener('click', closeOverlayPhotoPopUp);
