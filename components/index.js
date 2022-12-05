@@ -67,6 +67,7 @@ const photoCardsList = document.querySelector('.photo-cards__list');
 const overlayPhotoPopUp = document.querySelector('.overlay-photo');
 const overlayPhotoImage = overlayPhotoPopUp.querySelector('.overlay-photo__image');
 const overlayPhotoDescription = overlayPhotoPopUp.querySelector('.overlay-photo__description');
+const overlayPhotoCloseButton = overlayPhotoPopUp.querySelector('.overlay-photo__close-button');
 
 //функция инициализации карточек из "заготовки"
 function initialPhotoCards(item) {
@@ -119,10 +120,7 @@ function openPopUpEditInfo() {
 
   inputName.focus();
 };
-//функция закрытия поп-ап редактирования профиля
-function closePopUpEditInfo() {
-    closePopUp(profileEditPopUp);
-};
+
 //функция сохранения введенных данных пользователем в форме редактирования профиля
 function saveProfileEditForm(evt) {
   evt.preventDefault();
@@ -137,10 +135,6 @@ function saveProfileEditForm(evt) {
 function openPopUpAddPhoto() {
   openPopUp(addPhotoPopUp);
   addPhotoForm.reset();
-};
-//функция закрытия поп-ап добавления фото
-function closePopUpAddPhoto() {
-  closePopUp(addPhotoPopUp);
 };
 
 //функция добавления фотографий через поп-ап пользователем
@@ -187,3 +181,5 @@ profileEditForm.addEventListener('submit', saveProfileEditForm);
 
 addPhotoButton.addEventListener('click', openPopUpAddPhoto);
 addPhotoPopUp.addEventListener('submit', addPhotoByUser);
+
+overlayPhotoCloseButton.addEventListener('click', closeOverlayPhotoPopUp);

@@ -35,24 +35,28 @@
   </footer>
   <div class="popup edit-popup">
     <div class="popup__container">
-      <form class="form edit-form" name="info">
+      <form class="form edit-form" name="form-edit-info" >
         <h2 class="form__title">Редактировать профиль</h2>
         <fieldset class="form__fieldset">
-          <input type="text" id="profile-name" class="form__input" placeholder="Имя" name="name" minlength="3" maxlength="30" required>
-          <input type="text" id="profile-description" class="form__input" placeholder="О себе" name="description" minlength="2" maxlength="150" required>
+          <input type="text" id="profile-name" class="form__input" placeholder="Имя" name="profile-name" minlength="2" maxlength="40" required>
+          <span class="form__input-error profile-name__input-error"></span>
+          <input type="text" id="profile-description" class="form__input" placeholder="О себе" name="profile-description" minlength="2" maxlength="200" required>
+          <span class="form__input-error profile-description__input-error"></span>
         </fieldset>
         <button type="submit" class="form__save-button">Сохранить</button>
       </form>
-      <button type="button" class="popup__close-button edit-popup__close-button" aria-label="Закрыть поп-ап"></button>
+      <button type="button" class="popup__close-button edit-popup__close-button " aria-label="Закрыть поп-ап"></button>
     </div>
   </div>
   <div class="popup add-popup">
     <div class="popup__container">
-      <form class="form add-cards-form" name="photo">
+      <form class="form add-cards-form" name="form-photo" novalidate>
         <h2 class="form__title">Новое место</h2>
         <fieldset class="form__fieldset">
-          <input type="text" id="photo-name" class="form__input" placeholder="Название" name="name" minlength="3" maxlength="30" required>
-          <input type="text" id="photo-link" class="form__input" placeholder="Ссылка на картинку" name="link" required>
+          <input type="text" id="photo-name" class="form__input" placeholder="Название" name="photo-name" minlength="2" maxlength="30" required>
+          <span class="form__input-error photo-name__input-error"></span>
+          <input type="url" id="photo-link" class="form__input" placeholder="Ссылка на картинку" name="photo-link" required>
+          <span class="form__input-error photo-link__input-error"></span>
         </fieldset>
         <button type="submit" class="form__save-button">Создать</button>
       </form>
@@ -77,5 +81,6 @@
   </li>
   </template>
   <script src="./components/index.js"></script>
+  <script src="./components/validate.js"></script>
 </body>
 </html>

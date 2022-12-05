@@ -13,7 +13,7 @@
   color: #FFFFFF;
   background: #000000;
   margin: 48px 0 0 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s, background 0.3s, border 0.3s ease;
 }
 
 .form__save-button:hover {
