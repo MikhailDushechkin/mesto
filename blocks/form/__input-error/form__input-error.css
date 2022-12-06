@@ -7,4 +7,6 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.3s ease;
+  position: absolute;
+  top: 30px;
 }
