@@ -1,4 +1,4 @@
-//объект с необходимыми значениеми классов формы
+//объект с необходимыми значениями классов формы
 const validSettings = {
   formSelector: '.form',
   inputSelector: '.form__input',

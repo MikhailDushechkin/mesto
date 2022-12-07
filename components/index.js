@@ -25,6 +25,8 @@ const initialCards = [
   }
 ];
 
+const page = document.querySelector('.page');
+
 //шаблон карточки с фото
 const addPhotoTemplate = document.querySelector('#photo-cards-element').content;
 
@@ -37,6 +39,8 @@ const addPhotoButton = profile.querySelector('.profile__add-button');
 const profileName = profile.querySelector('.profile__name');
 //блок с описанием профиля
 const profileDescription = profile.querySelector('.profile__description');
+
+const popupList = document.querySelectorAll('.popup');
 
 //поп-ап редактирования профиля
 const profileEditPopUp = document.querySelector('.edit-popup');
@@ -97,19 +101,55 @@ function createPhotoCard(item) {
   return cardElement;
 }
 
-//открытие поп-апов
+//функция открытие поп-апов
 function openPopUp(popup) {
   popup.classList.add('popup_opened');
+  closePopUpWithOverlay();
+  closePopUpWithButton();
+  setListenerOnEsc();
 };
-//закрытие поп-апов
+//функция закрытие поп-апов
 function closePopUp(popup) {
   popup.classList.remove('popup_opened');
+  removeListenerOnEsc();
 };
-closeButtons.forEach(button => {
-  const popup = button.closest('.popup');
 
-  button.addEventListener('click', () => closePopUp(popup));
-});
+//функция закрытия поп-ап через кнопку
+function closePopUpWithButton() {
+  closeButtons.forEach(button => {
+    const popup = button.closest('.popup');
+
+    button.addEventListener('click', () => closePopUp(popup));
+  });
+}
+
+//функция закрытия поп-ап через "задний фон"
+function closePopUpWithOverlay() {
+  popupList.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup_opened')) {
+          closePopUp(evt.target);
+      }
+    });
+  });
+};
+
+//функция закрытия поп-ап через Esc
+function closePopUpWithEsc(evt) {
+  if (evt.key === 'Escape') {
+    const popupOpened = page.querySelector('.popup_opened');
+    closePopUp(popupOpened);
+  }
+};
+
+//функция установки слушателя для Esc
+function setListenerOnEsc() {
+  page.addEventListener('keydown', closePopUpWithEsc);
+}
+//функция удаления слушателя для Esc
+function removeListenerOnEsc() {
+  page.removeEventListener('keydown', closePopUpWithEsc);
+}
 
 //функция открытия поп-ап редактирования профиля
 function openPopUpEditInfo() {
