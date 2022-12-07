@@ -106,12 +106,12 @@ function openPopUp(popup) {
   popup.classList.add('popup_opened');
   closePopUpWithOverlay();
   closePopUpWithButton();
-  setListenerOnEsc();
+  setListenerOnEsc(closePopUpWithEsc);
 };
 //функция закрытие поп-апов
 function closePopUp(popup) {
   popup.classList.remove('popup_opened');
-  removeListenerOnEsc();
+  removeListenerOnEsc(closePopUpWithEsc);
 };
 
 //функция закрытия поп-ап через кнопку
@@ -143,13 +143,17 @@ function closePopUpWithEsc(evt) {
 };
 
 //функция установки слушателя для Esc
-function setListenerOnEsc() {
-  page.addEventListener('keydown', closePopUpWithEsc);
-}
+function setListenerOnEsc(item) {
+  page.addEventListener('keydown', item);
+};
 //функция удаления слушателя для Esc
-function removeListenerOnEsc() {
-  page.removeEventListener('keydown', closePopUpWithEsc);
-}
+function removeListenerOnEsc(item) {
+  page.removeEventListener('keydown', item);
+};
+
+function setInactiveButton(form) {
+  form.querySelector('.form__save-button').classList.add('form__save-button_inactive');
+};
 
 //функция открытия поп-ап редактирования профиля
 function openPopUpEditInfo() {
@@ -169,6 +173,7 @@ function saveProfileEditForm(evt) {
   profileDescription.textContent = inputDescription.value;
 
   closePopUp(profileEditPopUp);
+  setInactiveButton(profileEditForm);
 };
 
 //функция открытия поп-ап добавления фото
@@ -186,6 +191,7 @@ function addPhotoByUser(evt) {
   pastePhotoCard(createPhotoCard(photoByUser));
 
   closePopUp(addPhotoPopUp);
+  setInactiveButton(addPhotoForm);
 };
 
 //функция для лайка

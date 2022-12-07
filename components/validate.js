@@ -10,7 +10,7 @@ const validSettings = {
 
 //функция показать красную строку, ошибку и текст ошибки
 function showInputError(formElement, inputElement, errorMessage) {
-  const errorInputElement = formElement.querySelector(`.${inputElement.id}__input-error`);
+  const errorInputElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.add(validSettings.inputErrorClass);
   errorInputElement.classList.add(validSettings.errorClass);
@@ -19,7 +19,7 @@ function showInputError(formElement, inputElement, errorMessage) {
 
 //функция скрыть красную строку, ошибку и текст ошибки
 function hideInputError(formElement, inputElement) {
-  const errorInputElement = formElement.querySelector(`.${inputElement.id}__input-error`);
+  const errorInputElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.remove(validSettings.inputErrorClass);
   errorInputElement.classList.remove(validSettings.errorClass);
