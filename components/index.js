@@ -48,9 +48,6 @@ const profileEditPopUp = document.querySelector('.edit-popup');
 //поп-ап добавления фотографий
 const addPhotoPopUp = document.querySelector('.add-popup');
 
-//все кнопки закрытия поп-апов
-const closeButtons = document.querySelectorAll('.popup__close-button');
-
 //форма редактирования профиля
 const profileEditForm = document.querySelector('.edit-form');
 //форма добавления фотографий
@@ -71,41 +68,39 @@ const photoCardsList = document.querySelector('.photo-cards__list');
 const overlayPhotoPopUp = document.querySelector('.overlay-photo');
 const overlayPhotoImage = overlayPhotoPopUp.querySelector('.overlay-photo__image');
 const overlayPhotoDescription = overlayPhotoPopUp.querySelector('.overlay-photo__description');
-const overlayPhotoCloseButton = overlayPhotoPopUp.querySelector('.overlay-photo__close-button');
 
 //функция инициализации карточек из "заготовки"
-function initialPhotoCards(item) {
+function renderInitialPhotoCards(item) {
   item.forEach(element => {
     pastePhotoCard(createPhotoCard(element));
   });
-}
-initialPhotoCards(initialCards);
+};
+renderInitialPhotoCards(initialCards);
 
 //функция вставки карточек в начало узла списка
 function pastePhotoCard(item) {
   photoCardsList.prepend(item);
-}
+};
 
 //функция создания карточки
 function createPhotoCard(item) {
   const cardElement = addPhotoTemplate.cloneNode(true);
+  const photoCardPhoto = cardElement.querySelector('.photo-cards__photo');
 
-  cardElement.querySelector('.photo-cards__photo').src = item.link;
+  photoCardPhoto.src = item.link;
   cardElement.querySelector('.photo-cards__text').textContent = item.name;
-  cardElement.querySelector('.photo-cards__photo').alt = item.name;
+  photoCardPhoto.alt = item.name;
 
-  cardElement.querySelector('.photo-cards__button-like').addEventListener('click', likePhoto);
+  cardElement.querySelector('.photo-cards__button-like').addEventListener('click', toggleLikePhoto);
   cardElement.querySelector('.photo-cards__button-del').addEventListener('click', deletePhotoCards);
-  cardElement.querySelector('.photo-cards__photo').addEventListener('click', openOverlayPhotoPopUp);
+  photoCardPhoto.addEventListener('click', openOverlayPhotoPopUp);
 
   return cardElement;
-}
+};
 
 //функция открытие поп-апов
 function openPopUp(popup) {
   popup.classList.add('popup_opened');
-  closePopUpWithOverlay();
-  closePopUpWithButton();
   setListenerOnEsc(closePopUpWithEsc);
 };
 //функция закрытие поп-апов
@@ -114,25 +109,21 @@ function closePopUp(popup) {
   removeListenerOnEsc(closePopUpWithEsc);
 };
 
-//функция закрытия поп-ап через кнопку
-function closePopUpWithButton() {
-  closeButtons.forEach(button => {
-    const popup = button.closest('.popup');
-
-    button.addEventListener('click', () => closePopUp(popup));
-  });
-}
-
-//функция закрытия поп-ап через "задний фон"
-function closePopUpWithOverlay() {
+//функция закрытия поп-ап через кнопки или оверлей
+function closePopUpWithButtonOrOverlay() {
   popupList.forEach((popup) => {
-    popup.addEventListener('click', (evt) => {
+    popup.addEventListener('mousedown', (evt) => {
       if (evt.target.classList.contains('popup_opened')) {
-          closePopUp(evt.target);
+        closePopUp(popup)
+      }
+      if (evt.target.classList.contains('popup__close-button')) {
+        closePopUp(popup)
       }
     });
   });
 };
+
+closePopUpWithButtonOrOverlay();
 
 //функция закрытия поп-ап через Esc
 function closePopUpWithEsc(evt) {
@@ -152,7 +143,9 @@ function removeListenerOnEsc(item) {
 };
 
 function setInactiveButton(form) {
-  form.querySelector('.form__save-button').classList.add('form__save-button_inactive');
+  const submitButton = form.querySelector('.form__save-button');
+  submitButton.disabled = true;
+  submitButton.classList.add('form__save-button_inactive');
 };
 
 //функция открытия поп-ап редактирования профиля
@@ -173,13 +166,6 @@ function saveProfileEditForm(evt) {
   profileDescription.textContent = inputDescription.value;
 
   closePopUp(profileEditPopUp);
-  setInactiveButton(profileEditForm);
-};
-
-//функция открытия поп-ап добавления фото
-function openPopUpAddPhoto() {
-  openPopUp(addPhotoPopUp);
-  addPhotoForm.reset();
 };
 
 //функция добавления фотографий через поп-ап пользователем
@@ -192,17 +178,18 @@ function addPhotoByUser(evt) {
 
   closePopUp(addPhotoPopUp);
   setInactiveButton(addPhotoForm);
+  evt.target.reset();
 };
 
 //функция для лайка
-function likePhoto(evt) {
+function toggleLikePhoto(evt) {
   evt.target.classList.toggle('photo-cards__button-like_active');
-}
+};
 
 //функция удаления карточек с фото
 function deletePhotoCards(evt) {
   evt.target.closest('.photo-cards__item').remove();
-}
+};
 
 //функция открытия поп-ап с фото
 function openOverlayPhotoPopUp(event) {
@@ -211,21 +198,32 @@ function openOverlayPhotoPopUp(event) {
   overlayPhotoDescription.textContent = event.target.alt;
 
   openPopUp(overlayPhotoPopUp);
-}
+  setListenerOnEscForDelAtr(closeOverlayPhotoPopUp);
+};
 
 //функция закрытия поп-ап с фото
-function closeOverlayPhotoPopUp() {
-  closePopUp(overlayPhotoPopUp);
+function closeOverlayPhotoPopUp(evt) {
+  if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button') || evt.key === 'Escape') {
+    overlayPhotoImage.removeAttribute('src');
+    overlayPhotoImage.removeAttribute('alt');
+    overlayPhotoDescription.textContent = '';
+  }
+  removeListenerOnEscForDelAtr(closeOverlayPhotoPopUp);
+  overlayPhotoPopUp.removeEventListener('click', (evt) => closeOverlayPhotoPopUp(evt));
+  };
 
-  overlayPhotoImage.removeAttribute('src');
-  overlayPhotoImage.removeAttribute('alt');
-  overlayPhotoDescription.textContent = '';
-}
+function setListenerOnEscForDelAtr(item) {
+  page.addEventListener('keydown', item)
+};
+
+function removeListenerOnEscForDelAtr(item) {
+  page.removeEventListener('keydown', item)
+};
 
 profileEditButton.addEventListener('click', openPopUpEditInfo);
 profileEditForm.addEventListener('submit', saveProfileEditForm);
 
-addPhotoButton.addEventListener('click', openPopUpAddPhoto);
+addPhotoButton.addEventListener('click', () => openPopUp(addPhotoPopUp));
 addPhotoPopUp.addEventListener('submit', addPhotoByUser);
 
-overlayPhotoCloseButton.addEventListener('click', closeOverlayPhotoPopUp);
+overlayPhotoPopUp.addEventListener('click', (evt) => closeOverlayPhotoPopUp(evt));

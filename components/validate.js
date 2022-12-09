@@ -44,7 +44,7 @@ function hasInvalidInput(inputList) {
 
 //функция обработчик полей формы
 function setEventListener(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+  const inputList = Array.from(formElement.querySelectorAll(validSettings.inputSelector));
   const submitButton = formElement.querySelector(validSettings.submitButtonSelector);
 
   toggleButtonStatus(inputList, submitButton);
@@ -60,15 +60,17 @@ function setEventListener(formElement) {
 //функция изменения кнопки отправки формы
 function toggleButtonStatus(inputList, submitButton) {
   if (hasInvalidInput(inputList)) {
+    submitButton.disabled = true;
     submitButton.classList.add(validSettings.inactiveButtonClass);
   } else {
+    submitButton.disabled = false;
     submitButton.classList.remove(validSettings.inactiveButtonClass);
   }
 };
 
 //функция нахождения и обработки форм
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.form'));
+function enableValidation(validSettings) {
+  const formList = Array.from(document.querySelectorAll(validSettings.formSelector));
 
   formList.forEach((formElement) => {
     setEventListener(formElement);
