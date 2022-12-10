@@ -198,26 +198,6 @@ function openOverlayPhotoPopUp(event) {
   overlayPhotoDescription.textContent = event.target.alt;
 
   openPopUp(overlayPhotoPopUp);
-  setListenerOnEscForDelAtr(closeOverlayPhotoPopUp);
-};
-
-//функция закрытия поп-ап с фото
-function closeOverlayPhotoPopUp(evt) {
-  if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button') || evt.key === 'Escape') {
-    overlayPhotoImage.removeAttribute('src');
-    overlayPhotoImage.removeAttribute('alt');
-    overlayPhotoDescription.textContent = '';
-  }
-  removeListenerOnEscForDelAtr(closeOverlayPhotoPopUp);
-  overlayPhotoPopUp.removeEventListener('click', (evt) => closeOverlayPhotoPopUp(evt));
-  };
-
-function setListenerOnEscForDelAtr(item) {
-  page.addEventListener('keydown', item)
-};
-
-function removeListenerOnEscForDelAtr(item) {
-  page.removeEventListener('keydown', item)
 };
 
 profileEditButton.addEventListener('click', openPopUpEditInfo);
@@ -225,5 +205,3 @@ profileEditForm.addEventListener('submit', saveProfileEditForm);
 
 addPhotoButton.addEventListener('click', () => openPopUp(addPhotoPopUp));
 addPhotoPopUp.addEventListener('submit', addPhotoByUser);
-
-overlayPhotoPopUp.addEventListener('click', (evt) => closeOverlayPhotoPopUp(evt));

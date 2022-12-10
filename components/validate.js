@@ -43,7 +43,7 @@ function hasInvalidInput(inputList) {
 };
 
 //функция обработчик полей формы
-function setEventListener(formElement) {
+function setEventListener(formElement, validSettings) {
   const inputList = Array.from(formElement.querySelectorAll(validSettings.inputSelector));
   const submitButton = formElement.querySelector(validSettings.submitButtonSelector);
 
@@ -73,7 +73,7 @@ function enableValidation(validSettings) {
   const formList = Array.from(document.querySelectorAll(validSettings.formSelector));
 
   formList.forEach((formElement) => {
-    setEventListener(formElement);
+    setEventListener(formElement, validSettings);
   });
 };
 
