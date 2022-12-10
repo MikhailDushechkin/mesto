@@ -9,7 +9,7 @@ const validSettings = {
 }
 
 //функция показать красную строку, ошибку и текст ошибки
-function showInputError(formElement, inputElement, errorMessage) {
+function showInputError(formElement, inputElement, errorMessage, validSettings) {
   const errorInputElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.add(validSettings.inputErrorClass);
@@ -18,7 +18,7 @@ function showInputError(formElement, inputElement, errorMessage) {
 };
 
 //функция скрыть красную строку, ошибку и текст ошибки
-function hideInputError(formElement, inputElement) {
+function hideInputError(formElement, inputElement, validSettings) {
   const errorInputElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.remove(validSettings.inputErrorClass);
@@ -27,11 +27,11 @@ function hideInputError(formElement, inputElement) {
 };
 
 //функция проверки валидности
-function checkInputValid(formElement, inputElement) {
+function checkInputValid(formElement, inputElement, validSettings) {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, validSettings);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, validSettings);
   }
 };
 
@@ -47,18 +47,18 @@ function setEventListener(formElement, validSettings) {
   const inputList = Array.from(formElement.querySelectorAll(validSettings.inputSelector));
   const submitButton = formElement.querySelector(validSettings.submitButtonSelector);
 
-  toggleButtonStatus(inputList, submitButton);
+  toggleButtonStatus(inputList, submitButton, validSettings);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      checkInputValid(formElement, inputElement);
-      toggleButtonStatus(inputList, submitButton);
+      checkInputValid(formElement, inputElement, validSettings);
+      toggleButtonStatus(inputList, submitButton, validSettings);
     });
   });
 };
 
 //функция изменения кнопки отправки формы
-function toggleButtonStatus(inputList, submitButton) {
+function toggleButtonStatus(inputList, submitButton, validSettings) {
   if (hasInvalidInput(inputList)) {
     submitButton.disabled = true;
     submitButton.classList.add(validSettings.inactiveButtonClass);
