@@ -42,21 +42,6 @@ function hasInvalidInput(inputList) {
   });
 };
 
-//функция обработчик полей формы
-function setEventListener(formElement, validSettings) {
-  const inputList = Array.from(formElement.querySelectorAll(validSettings.inputSelector));
-  const submitButton = formElement.querySelector(validSettings.submitButtonSelector);
-
-  toggleButtonStatus(inputList, submitButton, validSettings);
-
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      checkInputValid(formElement, inputElement, validSettings);
-      toggleButtonStatus(inputList, submitButton, validSettings);
-    });
-  });
-};
-
 //функция изменения кнопки отправки формы
 function toggleButtonStatus(inputList, submitButton, validSettings) {
   if (hasInvalidInput(inputList)) {
@@ -66,6 +51,20 @@ function toggleButtonStatus(inputList, submitButton, validSettings) {
     submitButton.disabled = false;
     submitButton.classList.remove(validSettings.inactiveButtonClass);
   }
+};
+
+//функция обработчик полей формы
+function setEventListener(formElement, validSettings) {
+  const inputList = Array.from(formElement.querySelectorAll(validSettings.inputSelector));
+  const submitButton = formElement.querySelector(validSettings.submitButtonSelector);
+
+  toggleButtonStatus(inputList, submitButton, validSettings);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', () => {
+      checkInputValid(formElement, inputElement, validSettings);
+      toggleButtonStatus(inputList, submitButton, validSettings);
+    });
+  });
 };
 
 //функция нахождения и обработки форм
