@@ -1,3 +1,5 @@
+import { Card } from "./Card.js";
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -25,10 +27,12 @@ const initialCards = [
   }
 ];
 
+
+
 const page = document.querySelector('.page');
 
 //шаблон карточки с фото
-const addPhotoTemplate = document.querySelector('#photo-cards-element').content;
+// const addPhotoTemplate = document.querySelector('#photo-cards-element').content;
 
 const profile = document.querySelector('.profile');
 //кнопка редактирования профиля
@@ -50,8 +54,7 @@ const addPhotoPopUp = document.querySelector('.add-popup');
 
 //форма редактирования профиля
 const profileEditForm = document.querySelector('.edit-form');
-//форма добавления фотографий
-const addPhotoForm = document.querySelector('.add-cards-form');
+
 //инпут для ввода имени профиля в форме
 const inputName = profileEditForm.querySelector('#profile-name');
 //инпут для ввода описания профиля в форме
@@ -72,7 +75,8 @@ const overlayPhotoDescription = overlayPhotoPopUp.querySelector('.overlay-photo_
 //функция инициализации карточек из "заготовки"
 function renderInitialPhotoCards(item) {
   item.forEach(element => {
-    pastePhotoCard(createPhotoCard(element));
+    const initCards = new Card(element, '#photo-cards-element');
+    pastePhotoCard(initCards.createCard());
   });
 };
 renderInitialPhotoCards(initialCards);
@@ -83,20 +87,20 @@ function pastePhotoCard(item) {
 };
 
 //функция создания карточки
-function createPhotoCard(item) {
-  const cardElement = addPhotoTemplate.cloneNode(true);
-  const photoCardPhoto = cardElement.querySelector('.photo-cards__photo');
+// function createPhotoCard(item) {
+//   const cardElement = addPhotoTemplate.cloneNode(true);
+//   const photoCardPhoto = cardElement.querySelector('.photo-cards__photo');
 
-  photoCardPhoto.src = item.link;
-  cardElement.querySelector('.photo-cards__text').textContent = item.name;
-  photoCardPhoto.alt = item.name;
+//   photoCardPhoto.src = item.link;
+//   cardElement.querySelector('.photo-cards__text').textContent = item.name;
+//   photoCardPhoto.alt = item.name;
 
-  cardElement.querySelector('.photo-cards__button-like').addEventListener('click', toggleLikePhoto);
-  cardElement.querySelector('.photo-cards__button-del').addEventListener('click', deletePhotoCards);
-  photoCardPhoto.addEventListener('click', openOverlayPhotoPopUp);
+//   cardElement.querySelector('.photo-cards__button-like').addEventListener('click', toggleLikePhoto);
+//   cardElement.querySelector('.photo-cards__button-del').addEventListener('click', deletePhotoCards);
+//   photoCardPhoto.addEventListener('click', openOverlayPhotoPopUp);
 
-  return cardElement;
-};
+//   return cardElement;
+// };
 
 //функция открытие поп-апов
 function openPopUp(popup) {
@@ -142,12 +146,6 @@ function removeListenerOnEsc(item) {
   page.removeEventListener('keydown', item);
 };
 
-function setInactiveButton(form) {
-  const submitButton = form.querySelector('.form__save-button');
-  submitButton.disabled = true;
-  submitButton.classList.add('form__save-button_inactive');
-};
-
 //функция открытия поп-ап редактирования профиля
 function openPopUpEditInfo() {
   openPopUp(profileEditPopUp);
@@ -174,34 +172,42 @@ function addPhotoByUser(evt) {
 
   const photoByUser = { name: inputPhotoName.value, link: inputPhotoLink.value };
 
-  pastePhotoCard(createPhotoCard(photoByUser));
+  const initCards = new Card(photoByUser, '#photo-cards-element');
+
+  pastePhotoCard(initCards.createCard());
 
   closePopUp(addPhotoPopUp);
-  setInactiveButton(addPhotoForm);
   evt.target.reset();
 };
 
 //функция для лайка
-function toggleLikePhoto(evt) {
-  evt.target.classList.toggle('photo-cards__button-like_active');
-};
+// function toggleLikePhoto(evt) {
+//   evt.target.classList.toggle('photo-cards__button-like_active');
+// };
 
 //функция удаления карточек с фото
-function deletePhotoCards(evt) {
-  evt.target.closest('.photo-cards__item').remove();
-};
+// function deletePhotoCards(evt) {
+//   evt.target.closest('.photo-cards__item').remove();
+// };
 
 //функция открытия поп-ап с фото
-function openOverlayPhotoPopUp(event) {
-  overlayPhotoImage.src = event.target.src;
-  overlayPhotoImage.alt = event.target.alt;
-  overlayPhotoDescription.textContent = event.target.alt;
+// function openOverlayPhotoPopUp(event) {
+//   overlayPhotoImage.src = event.target.src;
+//   overlayPhotoImage.alt = event.target.alt;
+//   overlayPhotoDescription.textContent = event.target.alt;
 
-  openPopUp(overlayPhotoPopUp);
-};
+//   openPopUp(overlayPhotoPopUp);
+// };
 
 profileEditButton.addEventListener('click', openPopUpEditInfo);
 profileEditForm.addEventListener('submit', saveProfileEditForm);
 
 addPhotoButton.addEventListener('click', () => openPopUp(addPhotoPopUp));
 addPhotoPopUp.addEventListener('submit', addPhotoByUser);
+
+export {
+  openPopUp,
+  overlayPhotoPopUp,
+  overlayPhotoImage,
+  overlayPhotoDescription,
+}
