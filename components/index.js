@@ -1,5 +1,7 @@
 import { Card } from "./Card.js";
 
+import { FormValidator } from "./FormValidator.js";
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -26,6 +28,16 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+//объект с необходимыми значениями классов формы
+const validSettings = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__save-button',
+  inactiveButtonClass: 'form__save-button_inactive',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__input-error_active'
+}
 
 
 
@@ -205,9 +217,16 @@ profileEditForm.addEventListener('submit', saveProfileEditForm);
 addPhotoButton.addEventListener('click', () => openPopUp(addPhotoPopUp));
 addPhotoPopUp.addEventListener('submit', addPhotoByUser);
 
+const addPhotoForm = new FormValidator(validSettings, addPhotoPopUp);
+addPhotoForm.enableValidation();
+
+const editProfileForm = new FormValidator(validSettings, profileEditPopUp);
+editProfileForm.enableValidation();
+
 export {
   openPopUp,
   overlayPhotoPopUp,
   overlayPhotoImage,
   overlayPhotoDescription,
+  validSettings,
 }
