@@ -39,12 +39,7 @@ const validSettings = {
   errorClass: 'form__input-error_active'
 }
 
-
-
 const page = document.querySelector('.page');
-
-//шаблон карточки с фото
-// const addPhotoTemplate = document.querySelector('#photo-cards-element').content;
 
 const profile = document.querySelector('.profile');
 //кнопка редактирования профиля
@@ -97,22 +92,6 @@ renderInitialPhotoCards(initialCards);
 function pastePhotoCard(item) {
   photoCardsList.prepend(item);
 };
-
-//функция создания карточки
-// function createPhotoCard(item) {
-//   const cardElement = addPhotoTemplate.cloneNode(true);
-//   const photoCardPhoto = cardElement.querySelector('.photo-cards__photo');
-
-//   photoCardPhoto.src = item.link;
-//   cardElement.querySelector('.photo-cards__text').textContent = item.name;
-//   photoCardPhoto.alt = item.name;
-
-//   cardElement.querySelector('.photo-cards__button-like').addEventListener('click', toggleLikePhoto);
-//   cardElement.querySelector('.photo-cards__button-del').addEventListener('click', deletePhotoCards);
-//   photoCardPhoto.addEventListener('click', openOverlayPhotoPopUp);
-
-//   return cardElement;
-// };
 
 //функция открытие поп-апов
 function openPopUp(popup) {
@@ -191,25 +170,6 @@ function addPhotoByUser(evt) {
   closePopUp(addPhotoPopUp);
   evt.target.reset();
 };
-
-//функция для лайка
-// function toggleLikePhoto(evt) {
-//   evt.target.classList.toggle('photo-cards__button-like_active');
-// };
-
-//функция удаления карточек с фото
-// function deletePhotoCards(evt) {
-//   evt.target.closest('.photo-cards__item').remove();
-// };
-
-//функция открытия поп-ап с фото
-// function openOverlayPhotoPopUp(event) {
-//   overlayPhotoImage.src = event.target.src;
-//   overlayPhotoImage.alt = event.target.alt;
-//   overlayPhotoDescription.textContent = event.target.alt;
-
-//   openPopUp(overlayPhotoPopUp);
-// };
 
 profileEditButton.addEventListener('click', openPopUpEditInfo);
 profileEditForm.addEventListener('submit', saveProfileEditForm);

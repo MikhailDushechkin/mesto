@@ -8,6 +8,7 @@ class FormValidator {
     this._form = formElement;
   }
 
+  //метод показа ошибки для полей ввода
   _showInputError(inputElement, errorMessage) {
     const errorInputElement = this._form.querySelector(`.${inputElement.id}-error`);
 
@@ -16,6 +17,7 @@ class FormValidator {
     errorInputElement.textContent = errorMessage;
   }
 
+  //метод скрытия ошибки для полей ввода
   _hideInputError(inputElement) {
     const errorInputElement = this._form.querySelector(`.${inputElement.id}-error`);
 
@@ -24,6 +26,7 @@ class FormValidator {
     errorInputElement.textContent = '';
   }
 
+  //метод проверки полей ввода на валидацию
   _checkInputValid(inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, inputElement.validationMessage);
@@ -32,12 +35,14 @@ class FormValidator {
     }
   }
 
+  //метод возврата невалидного поля
   _hasInvalidInput(inputList) {
     return inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
+  //метод переключения статуса активности кнопки отправки
   _toggleButtonStatus(inputList, submitButton) {
     if (this._hasInvalidInput(inputList)) {
       submitButton.classList.add(this._inactiveButtonClass);
@@ -48,6 +53,7 @@ class FormValidator {
     }
   }
 
+  //установка слушателей на поля ввода и кнопку отправки
   _setEventListener() {
     const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
     const submitButton = this._form.querySelector(this._submitButtonSelector);

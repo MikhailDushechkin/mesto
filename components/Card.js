@@ -2,59 +2,66 @@ import { openPopUp, overlayPhotoPopUp, overlayPhotoImage, overlayPhotoDescriptio
 
 class Card {
   constructor(data, templateSelector) {
-    this.name = data.name;
-    this.link = data.link;
-    this.template = templateSelector;
+    this._name = data.name;
+    this._link = data.link;
+    this._template = templateSelector;
   }
 
+  //получение и возврат готовой разметки
   _getCardTemplate() {
-    const cardElement = document.querySelector(this.template).content.querySelector('.photo-cards__item').cloneNode(true);
+    const cardElement = document.querySelector(this._template).content.querySelector('.photo-cards__item').cloneNode(true);
 
     return cardElement;
   };
 
+  //создание карточки, присвоение свойств, возврат готовой карточки
   createCard() {
     this._element = this._getCardTemplate();
     const photoCardPhoto = this._element.querySelector('.photo-cards__photo');
 
-    photoCardPhoto.src = this.link;
-    this._element.querySelector('.photo-cards__text').textContent = this.name;
-    photoCardPhoto.alt = this.name;
+    photoCardPhoto.src = this._link;
+    this._element.querySelector('.photo-cards__text').textContent = this._name;
+    photoCardPhoto.alt = this._name;
 
     this._setEventListeners();
 
     return this._element;
   }
 
+  //установка слушателей
   _setEventListeners() {
+    //слушатель для лайка
     this._element.querySelector('.photo-cards__button-like').addEventListener('click', () => {
       this._toggleLike();
     });
-
+    //слушатель для удаления карточки
     this._element.querySelector('.photo-cards__button-del').addEventListener('click', () => {
       this._deleteCard();
     });
-
+    //слушатель для открытия фото
     this._element.querySelector('.photo-cards__photo').addEventListener('click', () => {
       this._openOverlayPopUp();
     });
   }
 
+  //метод переключения лайка
   _toggleLike() {
     this._element.querySelector('.photo-cards__button-like').classList.toggle('photo-cards__button-like_active');
   }
 
+  //метод удаления карточки
   _deleteCard() {
     this._element.closest('.photo-cards__item').remove();
   }
 
+  //метод открытия определенного фото
   _openOverlayPopUp() {
-    overlayPhotoImage.src = this.link;
-    overlayPhotoImage.alt = this.name;
-    overlayPhotoDescription.textContent = this.name;
+    overlayPhotoImage.src = this._link;
+    overlayPhotoImage.alt = this._name;
+    overlayPhotoDescription.textContent = this._name;
 
     openPopUp(overlayPhotoPopUp);
   }
 }
 
-export {Card};
+export { Card };
