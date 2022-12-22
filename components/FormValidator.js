@@ -6,6 +6,9 @@ class FormValidator {
     this._inputErrorClass = validationSettings.inputErrorClass;
     this._errorClass = validationSettings.errorClass;
     this._form = formElement;
+
+    this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
+    this._submitButton = this._form.querySelector(this._submitButtonSelector);
   }
 
   //метод показа ошибки для полей ввода
@@ -36,37 +39,34 @@ class FormValidator {
   }
 
   //метод возврата невалидного поля
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
   //метод переключения статуса активности кнопки отправки
-  _toggleButtonStatus(inputList, submitButton) {
-    if (this._hasInvalidInput(inputList)) {
-      submitButton.classList.add(this._inactiveButtonClass);
-      submitButton.disabled = true;
+  _toggleButtonStatus() {
+    if (this._hasInvalidInput()) {
+      this._submitButton.classList.add(this._inactiveButtonClass);
+      this._submitButton.disabled = true;
     } else {
-      submitButton.classList.remove(this._inactiveButtonClass);
-      submitButton.disabled = false;
+      this._submitButton.classList.remove(this._inactiveButtonClass);
+      this._submitButton.disabled = false;
     }
   }
 
   //установка слушателей на поля ввода и кнопку отправки
   _setEventListener() {
-    const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-    const submitButton = this._form.querySelector(this._submitButtonSelector);
-
-    this._toggleButtonStatus(inputList, submitButton);
-    inputList.forEach((inputElement) => {
+    this._toggleButtonStatus();
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValid(inputElement);
-        this._toggleButtonStatus(inputList, submitButton);
+        this._toggleButtonStatus();
       });
       this._form.addEventListener('reset', () => {
         setTimeout(() => {
-          this._toggleButtonStatus(inputList, submitButton);
+          this._toggleButtonStatus();
         }, 0);
       });
     });

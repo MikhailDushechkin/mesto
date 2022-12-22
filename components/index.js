@@ -1,51 +1,17 @@
+import { initialCards, validSettings } from "./initialData.js";
+
 import { Card } from "./Card.js";
 
 import { FormValidator } from "./FormValidator.js";
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-//объект с необходимыми значениями классов формы
-const validSettings = {
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__save-button',
-  inactiveButtonClass: 'form__save-button_inactive',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active'
-}
 
 const page = document.querySelector('.page');
 
 const profile = document.querySelector('.profile');
 //кнопка редактирования профиля
-const profileEditButton = profile.querySelector('.profile__edit-button');
+const buttonEditProfile = profile.querySelector('.profile__edit-button');
 //кнопка добавления фотографий
-const addPhotoButton = profile.querySelector('.profile__add-button');
+const buttonOpenPopUpAddCard = profile.querySelector('.profile__add-button');
 //блок с имененем профиля
 const profileName = profile.querySelector('.profile__name');
 //блок с описанием профиля
@@ -54,36 +20,41 @@ const profileDescription = profile.querySelector('.profile__description');
 const popupList = document.querySelectorAll('.popup');
 
 //поп-ап редактирования профиля
-const profileEditPopUp = document.querySelector('.edit-popup');
+const popUpEditProfile = document.querySelector('.edit-popup');
 
 //поп-ап добавления фотографий
-const addPhotoPopUp = document.querySelector('.add-popup');
+const popUpAddCard = document.querySelector('.add-popup');
 
 //форма редактирования профиля
-const profileEditForm = document.querySelector('.edit-form');
+const formEditProfile = document.querySelector('.edit-form');
 
 //инпут для ввода имени профиля в форме
-const inputName = profileEditForm.querySelector('#profile-name');
+const inputName = formEditProfile.querySelector('#profile-name');
 //инпут для ввода описания профиля в форме
-const inputDescription = profileEditForm.querySelector('#profile-description');
+const inputDescription = formEditProfile.querySelector('#profile-description');
 //инпут для ввода названия фотографии
-const inputPhotoName = addPhotoPopUp.querySelector('#photo-name');
+const inputPhotoName = popUpAddCard.querySelector('#photo-name');
 //инпут для ввода ссылки фотографии
-const inputPhotoLink = addPhotoPopUp.querySelector('#photo-link');
+const inputPhotoLink = popUpAddCard.querySelector('#photo-link');
 
 //список с фото карточками
 const photoCardsList = document.querySelector('.photo-cards__list');
 
 //поп-ап с фото
-const overlayPhotoPopUp = document.querySelector('.overlay-photo');
-const overlayPhotoImage = overlayPhotoPopUp.querySelector('.overlay-photo__image');
-const overlayPhotoDescription = overlayPhotoPopUp.querySelector('.overlay-photo__description');
+const popUpOverlayPhoto = document.querySelector('.overlay-photo');
+const overlayPhotoImage = popUpOverlayPhoto.querySelector('.overlay-photo__image');
+const overlayPhotoDescription = popUpOverlayPhoto.querySelector('.overlay-photo__description');
+
+function createNewCard(data, templateSelector) {
+  const initCard = new Card(data, templateSelector);
+
+  return initCard.createCard();
+};
 
 //функция инициализации карточек из "заготовки"
 function renderInitialPhotoCards(item) {
   item.forEach(element => {
-    const initCards = new Card(element, '#photo-cards-element');
-    pastePhotoCard(initCards.createCard());
+    pastePhotoCard(createNewCard(element, '#photo-cards-element'));
   });
 };
 renderInitialPhotoCards(initialCards);
@@ -139,7 +110,7 @@ function removeListenerOnEsc(item) {
 
 //функция открытия поп-ап редактирования профиля
 function openPopUpEditInfo() {
-  openPopUp(profileEditPopUp);
+  openPopUp(popUpEditProfile);
 
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
@@ -154,7 +125,7 @@ function saveProfileEditForm(evt) {
   profileName.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
 
-  closePopUp(profileEditPopUp);
+  closePopUp(popUpEditProfile);
 };
 
 //функция добавления фотографий через поп-ап пользователем
@@ -163,29 +134,27 @@ function addPhotoByUser(evt) {
 
   const photoByUser = { name: inputPhotoName.value, link: inputPhotoLink.value };
 
-  const initCards = new Card(photoByUser, '#photo-cards-element');
+  pastePhotoCard(createNewCard(photoByUser, '#photo-cards-element'));
 
-  pastePhotoCard(initCards.createCard());
-
-  closePopUp(addPhotoPopUp);
+  closePopUp(popUpAddCard);
   evt.target.reset();
 };
 
-profileEditButton.addEventListener('click', openPopUpEditInfo);
-profileEditForm.addEventListener('submit', saveProfileEditForm);
+buttonEditProfile.addEventListener('click', openPopUpEditInfo);
+formEditProfile.addEventListener('submit', saveProfileEditForm);
 
-addPhotoButton.addEventListener('click', () => openPopUp(addPhotoPopUp));
-addPhotoPopUp.addEventListener('submit', addPhotoByUser);
+buttonOpenPopUpAddCard.addEventListener('click', () => openPopUp(popUpAddCard));
+popUpAddCard.addEventListener('submit', addPhotoByUser);
 
-const addPhotoForm = new FormValidator(validSettings, addPhotoPopUp);
+const addPhotoForm = new FormValidator(validSettings, popUpAddCard);
 addPhotoForm.enableValidation();
 
-const editProfileForm = new FormValidator(validSettings, profileEditPopUp);
+const editProfileForm = new FormValidator(validSettings, popUpEditProfile);
 editProfileForm.enableValidation();
 
 export {
   openPopUp,
-  overlayPhotoPopUp,
+  popUpOverlayPhoto,
   overlayPhotoImage,
   overlayPhotoDescription,
   validSettings,

@@ -1,4 +1,4 @@
-import { openPopUp, overlayPhotoPopUp, overlayPhotoImage, overlayPhotoDescription } from "./index.js";
+import { openPopUp, popUpOverlayPhoto, overlayPhotoImage, overlayPhotoDescription } from "./index.js";
 
 class Card {
   constructor(data, templateSelector) {
@@ -51,7 +51,8 @@ class Card {
 
   //метод удаления карточки
   _deleteCard() {
-    this._element.closest('.photo-cards__item').remove();
+    this._element.remove();
+    this._element = null;
   }
 
   //метод открытия определенного фото
@@ -60,7 +61,7 @@ class Card {
     overlayPhotoImage.alt = this._name;
     overlayPhotoDescription.textContent = this._name;
 
-    openPopUp(overlayPhotoPopUp);
+    openPopUp(popUpOverlayPhoto);
   }
 }
 
