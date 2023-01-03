@@ -1,4 +1,4 @@
-import { openPopUp, popUpOverlayPhoto, overlayPhotoImage, overlayPhotoDescription } from "./index.js";
+import {  popUpOverlayPhoto, overlayPhotoImage, overlayPhotoDescription } from "./index.js";
 
 class Card {
   constructor(data, templateSelector) {
