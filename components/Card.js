@@ -1,10 +1,11 @@
-import {  popUpOverlayPhoto, overlayPhotoImage, overlayPhotoDescription } from "./index.js";
+// import {  popUpOverlayPhoto, overlayPhotoImage, overlayPhotoDescription } from "./index.js";
 
-class Card {
-  constructor(data, templateSelector) {
+export default class Card {
+  constructor({data, handleCardClick}, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._template = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   //получение и возврат готовой разметки
@@ -40,7 +41,7 @@ class Card {
     });
     //слушатель для открытия фото
     this._element.querySelector('.photo-cards__photo').addEventListener('click', () => {
-      this._openOverlayPopUp();
+      this._handleCardClick();
     });
   }
 
@@ -56,13 +57,13 @@ class Card {
   }
 
   //метод открытия определенного фото
-  _openOverlayPopUp() {
-    overlayPhotoImage.src = this._link;
-    overlayPhotoImage.alt = this._name;
-    overlayPhotoDescription.textContent = this._name;
+  // _openOverlayPopUp() {
+  //   overlayPhotoImage.src = this._link;
+  //   overlayPhotoImage.alt = this._name;
+  //   overlayPhotoDescription.textContent = this._name;
 
-    openPopUp(popUpOverlayPhoto);
-  }
+  //   openPopUp(popUpOverlayPhoto);
+  // }
 }
 
 export { Card };

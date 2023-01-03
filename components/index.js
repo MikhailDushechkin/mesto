@@ -1,7 +1,8 @@
 import { initialCards, validSettings } from "./initialData.js";
-import { Card } from "./Card.js";
+import Card from "./Card.js";
 import Popup from "./Popup.js";
-import { FormValidator } from "./FormValidator.js";
+import FormValidator from "./FormValidator.js";
+import PopupWithImage from "./PopupWithImage.js";
 
 
 // const page = document.querySelector('.page');
@@ -40,14 +41,19 @@ const inputPhotoLink = popUpAddCard.querySelector('#photo-link');
 const photoCardsList = document.querySelector('.photo-cards__list');
 
 //поп-ап с фото
-const popUpOverlayPhoto = document.querySelector('.overlay-photo');
-const overlayPhotoImage = popUpOverlayPhoto.querySelector('.overlay-photo__image');
-const overlayPhotoDescription = popUpOverlayPhoto.querySelector('.overlay-photo__description');
+// const popUpOverlayPhoto = document.querySelector('.overlay-photo');
+// const overlayPhotoImage = popUpOverlayPhoto.querySelector('.overlay-photo__image');
+// const overlayPhotoDescription = popUpOverlayPhoto.querySelector('.overlay-photo__description');
 
 const popUpProfileEdit = new Popup('.edit-popup');
+const popUpWithOverlay = new PopupWithImage('.overlay-photo');
 
 function createNewCard(data, templateSelector) {
-  const initCard = new Card(data, templateSelector);
+  const initCard = new Card({
+    data,
+    handleCardClick: () => {
+      popUpWithOverlay.open(data.name, data.link);
+    }}, templateSelector);
 
   return initCard.createCard();
 };
@@ -155,12 +161,12 @@ editProfileForm.enableValidation();
 
 
 buttonEditProfile.addEventListener('click', () => popUpProfileEdit.open());
-popUpProfileEdit.setEventListeners();
+// popUpProfileEdit.setEventListeners();
 
-export {
-  // openPopUp,
-  popUpOverlayPhoto,
-  overlayPhotoImage,
-  overlayPhotoDescription,
-  validSettings,
-}
+// export {
+//   // openPopUp,
+//   popUpOverlayPhoto,
+//   overlayPhotoImage,
+//   overlayPhotoDescription,
+//   validSettings,
+// }
