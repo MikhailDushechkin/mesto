@@ -1,5 +1,3 @@
-// import {  popUpOverlayPhoto, overlayPhotoImage, overlayPhotoDescription } from "./index.js";
-
 export default class Card {
   constructor({data, handleCardClick}, templateSelector) {
     this._name = data.name;
@@ -55,15 +53,4 @@ export default class Card {
     this._element.remove();
     this._element = null;
   }
-
-  //метод открытия определенного фото
-  // _openOverlayPopUp() {
-  //   overlayPhotoImage.src = this._link;
-  //   overlayPhotoImage.alt = this._name;
-  //   overlayPhotoDescription.textContent = this._name;
-
-  //   openPopUp(popUpOverlayPhoto);
-  // }
 }
-
-export { Card };
