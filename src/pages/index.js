@@ -1,11 +1,11 @@
-import { initialCards, validSettings } from "./initialData.js";
-import Section from "./Section.js";
-import Card from "./Card.js";
-import Popup from "./Popup.js";
-import PopupWithImage from "./PopupWithImage.js";
-import PopupWithForm from "./PopupWithForm.js";
-import FormValidator from "./FormValidator.js";
-import UserInfo from "./UserInfo.js";
+import { initialCards, validSettings } from "../components/initialData.js";
+import Section from "../components/Section.js";
+import Card from "../components/Card.js";
+import Popup from "../components/Popup.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import FormValidator from "../components/FormValidator.js";
+import UserInfo from "../components/UserInfo.js";
 
 //id контейнера с разметкой карточек
 const templateSelector = '#photo-cards-element';
@@ -65,7 +65,7 @@ editProfileForm.enableValidation();
 //поп-ап с фото
 const popUpWithOverlay = new PopupWithImage(popupWithImageSelector);
 
-//поп-ап добавление карточек
+//поп-ап с формой добавления карточки
 const popupAddCard = new PopupWithForm({
   popupSelector: popupAddCardSelector,
   submitForm: (item) => {
@@ -73,6 +73,7 @@ const popupAddCard = new PopupWithForm({
   }
 })
 
+//поп-ап с формой редактирования профиля
 const popupEditProfile = new PopupWithForm({
   popupSelector: popupEditProfileSelector,
   submitForm: (item) => {
