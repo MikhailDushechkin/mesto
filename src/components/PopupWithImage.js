@@ -4,8 +4,8 @@ export default class PopupWithImage extends Popup {
   constructor(PopupSelector) {
     super(PopupSelector);
 
-    this._photoImage = this._popupSelector.querySelector('.overlay-photo__image');
-    this._photoDescription = this._popupSelector.querySelector('.overlay-photo__description');
+    this._photoImage = this._popupElement.querySelector('.overlay-photo__image');
+    this._photoDescription = this._popupElement.querySelector('.overlay-photo__description');
   }
 
   open(name, link) {
