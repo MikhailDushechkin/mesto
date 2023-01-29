@@ -13,7 +13,7 @@ import { initialCards,
   buttonOpenPopUpAddCard,
   inputName,
   inputDescription
-} from '../components/utils';
+} from '../utils/utils';
 import Card from "../components/Card.js";
 import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
