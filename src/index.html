@@ -13,7 +13,9 @@
   <main class ="content">
     <section class="profile">
       <div class="profile__container">
-        <img src="<%=require('./images/profile/profile-photo.jpg')%>" alt="Аватар профиля" class="profile__avatar">
+        <div class="profile__avatar-wrapper">
+          <img src="<%=require('./images/profile/profile-photo.jpg')%>" alt="Аватар профиля" class="profile__avatar">
+        </div>
         <div class="profile__bio">
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -32,6 +34,21 @@
   <footer class="footer">
     <p class="footer__copy">&copy; 2022 Mesto Russia</p>
   </footer>
+  <div class="popup edit-avatar-popup">
+    <div class="popup__container">
+      <form class="form add-cards-form" name="form-photo" novalidate>
+        <h2 class="form__title">Новое место</h2>
+        <fieldset class="form__fieldset">
+          <label class="form__field">
+            <input type="url" id="avatar-link" class="form__input" placeholder="Ссылка на аватар" name="link" required>
+          <span class="form__input-error avatar-link-error"></span>
+          </label>
+        </fieldset>
+        <button type="submit" class="form__save-button">Сохранить</button>
+      </form>
+      <button type="button" class="popup__close-button add-popup__close-button" aria-label="Закрыть поп-ап"></button>
+    </div>
+  </div>
   <div class="popup edit-popup">
     <div class="popup__container">
       <form class="form edit-form" name="form-edit-info" novalidate>
@@ -77,12 +94,22 @@
       <button type="button" class="popup__close-button overlay-photo__close-button" aria-label="Закрыть поп-ап"></button>
     </div>
   </div>
+  <div class="popup confirm-popup">
+    <div class="popup__container">
+      <h2 class="confirm-popup__title">Вы уверены?</h2>
+      <button type="button" class="confirm-popup__button">Да</button>
+      <button type="button" class="popup__close-button confirm-popup__close-button" aria-label="Закрыть поп-ап"></button>
+    </div>
+  </div>
   <template id="photo-cards-element">
     <li class="photo-cards__item">
       <img src="#" alt="Фотография" class="photo-cards__photo">
       <div class="photo-cards__description">
         <h2 class="photo-cards__text"></h2>
-        <button class="photo-cards__button-like" type="button" aria-label="Поставить лайк"></button>
+        <div class="photo-cards__like-block">
+          <button class="photo-cards__button-like" type="button" aria-label="Поставить лайк"></button>
+          <span class="photo-cards__like-counter">2</span>
+        </div>
       </div>
       <button class="photo-cards__button-del" type="button" aria-label="Удалить фото"></button>
   </li>
