@@ -7,12 +7,15 @@ import { initialCards,
   profileNameSelector,
   profileDescriptionSelector,
   popupEditProfileSelector,
+  popupEditAvatarSelector,
   popupAddCardSelector,
   popupWithImageSelector,
   buttonEditProfile,
   buttonOpenPopUpAddCard,
   inputName,
-  inputDescription
+  inputDescription,
+  buttonAvatarProfile,
+  avatarProfileSelector
 } from '../utils/utils.js';
 import Api from '../components/Api';
 import Card from "../components/Card.js";
@@ -31,7 +34,7 @@ const api = new Api({
 });
 
 //данные пользователя
-const userInfo = new UserInfo(profileNameSelector, profileDescriptionSelector);
+const userInfo = new UserInfo(profileNameSelector, profileDescriptionSelector, avatarProfileSelector);
 
 //функция создания новых карточек
 function createNewCard(data, templateSelector) {
@@ -57,6 +60,9 @@ validatorAddCardForm.enableValidation();
 const validatorEditProfileForm = new FormValidator(validSettings, popupEditProfileSelector);
 validatorEditProfileForm.enableValidation();
 
+const validatorEditAvatarForm = new FormValidator(validSettings, popupEditAvatarSelector);
+validatorEditAvatarForm.enableValidation();
+
 //поп-ап с фото
 const popUpWithOverlay = new PopupWithImage(popupWithImageSelector);
 
@@ -66,6 +72,7 @@ const popupAddCard = new PopupWithForm(popupAddCardSelector,(item) => {
   api.addNewCard(item)
   .then((res) => {
     cardRender.addItem(createNewCard(res, templateSelector));
+    popupAddCard.close();
   })
   .catch((err) => console.log(err))
   .finally(() => {
@@ -80,6 +87,7 @@ const popupEditProfile = new PopupWithForm(popupEditProfileSelector, (userData) 
     api.setUserData(userData)
     .then((data) => {
       userInfo.setUserInfo(data);
+      popupEditProfile.close();
     })
     .catch((err) => console.log(err))
     .finally(() => {
@@ -88,7 +96,22 @@ const popupEditProfile = new PopupWithForm(popupEditProfileSelector, (userData) 
   }
 )
 
-api.getAllNeededData() // возвращает результат исполнения нужных промисов (карточки и информация пользователя)
+//поп-ап с формой редактирования аватара
+const popupEditAvatar = new PopupWithForm(popupEditAvatarSelector, (userData) => {
+  popupEditAvatar.renderLoading(true)
+  api.setUserAvatar(userData)
+  .then((data) => {
+    userInfo.setUserAvatar(data);
+    popupEditAvatar.close();
+  })
+  .catch((err) => console.log(err))
+  .finally(() => {
+    popupEditAvatar.renderLoading(false)
+  })
+})
+
+// возвращает результат исполнения нужных промисов
+api.getInitialData()
   .then(( [cards, userData] ) => {
     userInfo.setUserInfo(userData)
     // userId = userData._id
@@ -107,3 +130,7 @@ buttonEditProfile.addEventListener('click', () => {
 });
 
 buttonOpenPopUpAddCard.addEventListener('click', () => popupAddCard.open());
+
+buttonAvatarProfile.addEventListener('click', () => {
+  popupEditAvatar.open()
+})

@@ -48,9 +48,21 @@ export default class Api {
         about: userData.description
       })
     })
+    .then(this._checkResponse)
   }
 
-  getAllNeededData() {
+  setUserAvatar(userData) {
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: userData.link
+      })
+    })
+    .then(this._checkResponse)
+  }
+
+  getInitialData() {
     return Promise.all([this.getInitialCards(), this.getUserData()])
   }
 }

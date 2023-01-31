@@ -35,6 +35,8 @@ const profileNameSelector = '.profile__name';
 const profileDescriptionSelector = '.profile__description';
 //поп-ап редактирования профиля
 const popupEditProfileSelector = '.edit-popup';
+//поп-ап редактирования аватара
+const popupEditAvatarSelector = '.edit-avatar-popup'
 //поп-ап добавления фотографий
 const popupAddCardSelector = '.add-popup';
 //поп-ап с фото
@@ -49,6 +51,10 @@ const buttonOpenPopUpAddCard = profile.querySelector('.profile__add-button');
 const inputName = document.querySelector('#profile-name');
 //инпут для ввода описания профиля в форме
 const inputDescription = document.querySelector('#profile-description');
+//кнопка изменения аватара профиля
+const buttonAvatarProfile = document.querySelector('.profile__avatar-wrapper');
+//аватар профиля
+const avatarProfileSelector = '.profile__avatar';
 
 export {
   initialCards,
@@ -57,10 +63,13 @@ export {
   profileNameSelector,
   profileDescriptionSelector,
   popupEditProfileSelector,
+  popupEditAvatarSelector,
   popupAddCardSelector,
   popupWithImageSelector,
   buttonEditProfile,
   buttonOpenPopUpAddCard,
   inputName,
-  inputDescription
+  inputDescription,
+  buttonAvatarProfile,
+  avatarProfileSelector
 };
