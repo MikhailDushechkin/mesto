@@ -13,13 +13,22 @@ import { initialCards,
   buttonOpenPopUpAddCard,
   inputName,
   inputDescription
-} from '../utils/utils';
+} from '../utils/utils.js';
+import Api from '../components/Api';
 import Card from "../components/Card.js";
 import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
 import UserInfo from "../components/UserInfo.js";
+
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-59',
+  headers: {
+    authorization: '2ef49e38-7e23-4031-9842-2240783d12c1',
+    'Content-Type': 'application/json'
+  }
+});
 
 //данные пользователя
 const userInfo = new UserInfo(profileNameSelector, profileDescriptionSelector);
@@ -36,13 +45,10 @@ function createNewCard(data, templateSelector) {
 };
 
 //отрисовка элементов на странице
-const cardRender = new Section({
-  data: initialCards,
-  renderer: (item) => {
+const cardRender = new Section((item) => {
     cardRender.addItem(createNewCard(item, templateSelector))
-  }
-}, cardListSelector)
-cardRender.renderItems();
+  }, cardListSelector)
+
 
 //создание экземпляров валидации форм
 const validatorAddCardForm = new FormValidator(validSettings, popupAddCardSelector);
@@ -55,24 +61,44 @@ validatorEditProfileForm.enableValidation();
 const popUpWithOverlay = new PopupWithImage(popupWithImageSelector);
 
 //поп-ап с формой добавления карточки
-const popupAddCard = new PopupWithForm({
-  popupSelector: popupAddCardSelector,
-  submitForm: (item) => {
-    cardRender.addItem(createNewCard(item, templateSelector));
+const popupAddCard = new PopupWithForm(popupAddCardSelector,(item) => {
+  popupAddCard.renderLoading(true)
+  api.addNewCard(item)
+  .then((res) => {
+    cardRender.addItem(createNewCard(res, templateSelector));
+  })
+  .catch((err) => console.log(err))
+  .finally(() => {
+    popupAddCard.renderLoading(false)
+  })
   }
-})
+)
 
 //поп-ап с формой редактирования профиля
-const popupEditProfile = new PopupWithForm({
-  popupSelector: popupEditProfileSelector,
-  submitForm: (item) => {
-    userInfo.setUserInfo(item);
+const popupEditProfile = new PopupWithForm(popupEditProfileSelector, (userData) => {
+    popupEditProfile.renderLoading(true)
+    api.setUserData(userData)
+    .then((data) => {
+      userInfo.setUserInfo(data);
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupEditProfile.renderLoading(false)
+    })
   }
-})
+)
+
+api.getAllNeededData() // возвращает результат исполнения нужных промисов (карточки и информация пользователя)
+  .then(( [cards, userData] ) => {
+    userInfo.setUserInfo(userData)
+    // userId = userData._id
+
+    cardRender.renderItems(cards)
+  })
+  .catch((err) => console.log(err))
 
 buttonEditProfile.addEventListener('click', () => {
   popupEditProfile.open();
-
   const {name, description} = userInfo.getUserInfo();
   inputName.focus();
   inputName.value = name;
@@ -81,4 +107,3 @@ buttonEditProfile.addEventListener('click', () => {
 });
 
 buttonOpenPopUpAddCard.addEventListener('click', () => popupAddCard.open());
-

@@ -1,15 +1,16 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-  constructor({popupSelector, submitForm}) {
+  constructor(popupSelector, submitForm) {
     super(popupSelector);
 
     this._submitForm = submitForm;
-    this._form = document.querySelector('.add-cards-form');
+    this._form = document.querySelector('form');
+    this._popupButton = this._form.querySelector('.form__save-button')
+    this._inputList = this._popupElement.querySelectorAll('.form__input');
   }
 
   _getInputValues() {
-    this._inputList = this._popupElement.querySelectorAll('.form__input');
     this._values = {};
 
     this._inputList.forEach(element => {
@@ -26,6 +27,14 @@ export default class PopupWithForm extends Popup {
       this._submitForm(this._getInputValues());
       this.close();
     })
+  }
+
+  renderLoading(isLoading) {
+    if(isLoading) {
+      this._popupButton.textContent = 'Сохранение...'
+    } else {
+      this._popupButton.textContent = 'Сохранить'
+    }
   }
 
   close() {
