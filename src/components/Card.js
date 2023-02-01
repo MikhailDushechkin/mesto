@@ -1,9 +1,19 @@
 export default class Card {
-  constructor({data, handleCardClick}, templateSelector) {
+  constructor(data, handleCardClick, handleLikeClick, templateSelector, api, userId) {
     this._name = data.name;
     this._link = data.link;
+    this._likes = data.likes;
+    this._id = data._id;
+    this._ownerId = data.owner._id;
+
     this._template = templateSelector;
+
     this._handleCardClick = handleCardClick;
+    this._handleLikeClick = handleLikeClick;
+
+    this._api = api;
+    
+    this._userId = userId;
   }
 
   //получение и возврат готовой разметки
@@ -23,15 +33,37 @@ export default class Card {
     photoCardPhoto.alt = this._name;
 
     this._setEventListeners();
+    this._checkOwner();
+    this._setLikeCount();
+    this._leaveActiveLike();
 
     return this._element;
+  }
+
+  _checkOwner() {
+    if(this._userId !== this._ownerId) {
+      const deleteButton = this._element.querySelector('.photo-cards__button-del')
+      deleteButton.style.display = 'none'
+    }
+  }
+
+  _setLikeCount() {
+    if(this._likes.length > 0) {
+      this._element.querySelector('.photo-cards__like-counter').textContent = this._likes.length;
+    }
+  }
+
+  _leaveActiveLike() {
+    if(this._likes.find((data) => this._userId === data._id)) {
+      this._element.querySelector('.photo-cards__button-like').classList.add('photo-cards__button-like_active')
+    }
   }
 
   //установка слушателей
   _setEventListeners() {
     //слушатель для лайка
     this._element.querySelector('.photo-cards__button-like').addEventListener('click', () => {
-      this._toggleLike();
+      this._handleLikeClick();
     });
     //слушатель для удаления карточки
     this._element.querySelector('.photo-cards__button-del').addEventListener('click', () => {
@@ -44,8 +76,26 @@ export default class Card {
   }
 
   //метод переключения лайка
-  _toggleLike() {
-    this._element.querySelector('.photo-cards__button-like').classList.toggle('photo-cards__button-like_active');
+  toggleLike() {
+    const likeButton = this._element.querySelector('.photo-cards__button-like')
+    const likeCount = this._element.querySelector('.photo-cards__like-counter')
+
+    if(!(likeButton.classList.contains('photo-cards__button-like_active'))) {
+      this._api.setLike(this._id)
+      .then((data) => {
+        likeButton.classList.add('photo-cards__button-like_active')
+        likeCount.textContent = data.likes.length
+      })
+      .catch((err) => console.log(err))
+    } else {
+      this._api.deleteLike(this._id)
+      .then((data) => {
+        likeButton.classList.remove('photo-cards__button-like_active')
+        likeCount.textContent = data.likes.length
+      })
+      .catch((err) => console.log(err))
+    }
+    // this._element.querySelector('.photo-cards__button-like').classList.toggle('photo-cards__button-like_active');
   }
 
   //метод удаления карточки

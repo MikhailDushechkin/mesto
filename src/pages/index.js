@@ -38,11 +38,17 @@ const userInfo = new UserInfo(profileNameSelector, profileDescriptionSelector, a
 
 //функция создания новых карточек
 function createNewCard(data, templateSelector) {
-  const initCard = new Card({
+  const initCard = new Card(
     data,
-    handleCardClick: () => {
+    () => {
       popUpWithOverlay.open(data.name, data.link);
-    }}, templateSelector);
+    }, () => {
+      initCard.toggleLike()
+    },
+    templateSelector,
+    api,
+    userId
+    );
 
   return initCard.createCard();
 };
@@ -110,12 +116,13 @@ const popupEditAvatar = new PopupWithForm(popupEditAvatarSelector, (userData) =>
   })
 })
 
+let userId;
+
 // возвращает результат исполнения нужных промисов
 api.getInitialData()
   .then(( [cards, userData] ) => {
     userInfo.setUserInfo(userData)
-    // userId = userData._id
-
+    userId = userData._id
     cardRender.renderItems(cards)
   })
   .catch((err) => console.log(err))
