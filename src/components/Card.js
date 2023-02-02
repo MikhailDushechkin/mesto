@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, handleCardClick, handleLikeClick, templateSelector, api, userId) {
+  constructor(data, {handleCardClick, handleLikeClick, handleDeleteCardClick}, templateSelector, api, userId) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
@@ -10,9 +10,10 @@ export default class Card {
 
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
+    this._deleteCardClick = handleDeleteCardClick;
 
     this._api = api;
-    
+
     this._userId = userId;
   }
 
@@ -50,6 +51,7 @@ export default class Card {
   _setLikeCount() {
     if(this._likes.length > 0) {
       this._element.querySelector('.photo-cards__like-counter').textContent = this._likes.length;
+      this._element.querySelector('.photo-cards__description').style.padding = '21px 20px 27px 21px'
     }
   }
 
@@ -67,7 +69,7 @@ export default class Card {
     });
     //слушатель для удаления карточки
     this._element.querySelector('.photo-cards__button-del').addEventListener('click', () => {
-      this._deleteCard();
+      this._deleteCardClick();
     });
     //слушатель для открытия фото
     this._element.querySelector('.photo-cards__photo').addEventListener('click', () => {
@@ -99,7 +101,7 @@ export default class Card {
   }
 
   //метод удаления карточки
-  _deleteCard() {
+  deleteCard() {
     this._element.remove();
     this._element = null;
   }

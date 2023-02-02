@@ -1,21 +1,22 @@
 import './index.css'
 import { validSettings } from "../components/initialData.js";
 import Section from "../components/Section.js";
-import { initialCards,
+import {
   templateSelector,
   cardListSelector,
+  avatarProfileSelector,
   profileNameSelector,
   profileDescriptionSelector,
   popupEditProfileSelector,
   popupEditAvatarSelector,
   popupAddCardSelector,
   popupWithImageSelector,
+  popupWithConfirmSelector,
   buttonEditProfile,
   buttonOpenPopUpAddCard,
   inputName,
   inputDescription,
-  buttonAvatarProfile,
-  avatarProfileSelector
+  buttonAvatarProfile
 } from '../utils/utils.js';
 import Api from '../components/Api';
 import Card from "../components/Card.js";
@@ -24,6 +25,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import FormValidator from "../components/FormValidator.js";
 import UserInfo from "../components/UserInfo.js";
+import PopupWithConfirm from "../components/PopupWithConfirm.js";
 
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-59',
@@ -40,11 +42,28 @@ const userInfo = new UserInfo(profileNameSelector, profileDescriptionSelector, a
 function createNewCard(data, templateSelector) {
   const initCard = new Card(
     data,
-    () => {
+    {
+    handleCardClick: () => {
       popUpWithOverlay.open(data.name, data.link);
-    }, () => {
+    },
+    handleLikeClick: () => {
       initCard.toggleLike()
     },
+    handleDeleteCardClick: () => {
+      popupWithConfirm.confirm(() =>{
+        popupWithConfirm.renderLoading(true);
+        api.deleteCard(data._id)
+      .then(() => {
+        initCard.deleteCard();
+        popupWithConfirm.close();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        popupWithConfirm.renderLoading(false);
+      })
+      })
+      popupWithConfirm.open()
+    }},
     templateSelector,
     api,
     userId
@@ -71,6 +90,8 @@ validatorEditAvatarForm.enableValidation();
 
 //поп-ап с фото
 const popUpWithOverlay = new PopupWithImage(popupWithImageSelector);
+//поп-ап с подтверждением
+const popupWithConfirm = new PopupWithConfirm(popupWithConfirmSelector)
 
 //поп-ап с формой добавления карточки
 const popupAddCard = new PopupWithForm(popupAddCardSelector,(item) => {
