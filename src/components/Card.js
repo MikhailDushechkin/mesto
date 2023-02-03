@@ -51,7 +51,7 @@ export default class Card {
   _setLikeCount() {
     if(this._likes.length > 0) {
       this._element.querySelector('.photo-cards__like-counter').textContent = this._likes.length;
-      this._element.querySelector('.photo-cards__description').style.padding = '21px 20px 27px 21px'
+      this._element.querySelector('.photo-cards__description').style.padding = '20.5px 20px 26.5px 21px'
     }
   }
 
@@ -66,6 +66,7 @@ export default class Card {
     //слушатель для лайка
     this._element.querySelector('.photo-cards__button-like').addEventListener('click', () => {
       this._handleLikeClick();
+      this._element.querySelector('.photo-cards__description').style.padding = '20.5px 20px 26.5px 21px'
     });
     //слушатель для удаления карточки
     this._element.querySelector('.photo-cards__button-del').addEventListener('click', () => {
@@ -97,7 +98,6 @@ export default class Card {
       })
       .catch((err) => console.log(err))
     }
-    // this._element.querySelector('.photo-cards__button-like').classList.toggle('photo-cards__button-like_active');
   }
 
   //метод удаления карточки

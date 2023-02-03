@@ -1,5 +1,5 @@
 import './index.css'
-import { validSettings } from "../components/initialData.js";
+import { validSettings } from "../utils/initialData.js";
 import Section from "../components/Section.js";
 import {
   templateSelector,
@@ -44,7 +44,7 @@ function createNewCard(data, templateSelector) {
     data,
     {
     handleCardClick: () => {
-      popUpWithOverlay.open(data.name, data.link);
+      popupWithOverlay.open(data.name, data.link);
     },
     handleLikeClick: () => {
       initCard.toggleLike()
@@ -89,13 +89,13 @@ const validatorEditAvatarForm = new FormValidator(validSettings, popupEditAvatar
 validatorEditAvatarForm.enableValidation();
 
 //поп-ап с фото
-const popUpWithOverlay = new PopupWithImage(popupWithImageSelector);
+const popupWithOverlay = new PopupWithImage(popupWithImageSelector);
 //поп-ап с подтверждением
 const popupWithConfirm = new PopupWithConfirm(popupWithConfirmSelector)
 
 //поп-ап с формой добавления карточки
 const popupAddCard = new PopupWithForm(popupAddCardSelector,(item) => {
-  popupAddCard.renderLoading(true)
+  popupAddCard.renderLoading(true);
   api.addNewCard(item)
   .then((res) => {
     cardRender.addItem(createNewCard(res, templateSelector));
@@ -105,8 +105,7 @@ const popupAddCard = new PopupWithForm(popupAddCardSelector,(item) => {
   .finally(() => {
     popupAddCard.renderLoading(false)
   })
-  }
-)
+  })
 
 //поп-ап с формой редактирования профиля
 const popupEditProfile = new PopupWithForm(popupEditProfileSelector, (userData) => {
@@ -120,8 +119,7 @@ const popupEditProfile = new PopupWithForm(popupEditProfileSelector, (userData) 
     .finally(() => {
       popupEditProfile.renderLoading(false)
     })
-  }
-)
+  })
 
 //поп-ап с формой редактирования аватара
 const popupEditAvatar = new PopupWithForm(popupEditAvatarSelector, (userData) => {
@@ -141,7 +139,7 @@ let userId;
 
 // возвращает результат исполнения нужных промисов
 api.getInitialData()
-  .then(( [cards, userData] ) => {
+  .then(([cards, userData]) => {
     userInfo.setUserInfo(userData)
     userId = userData._id
     cardRender.renderItems(cards)
@@ -159,6 +157,4 @@ buttonEditProfile.addEventListener('click', () => {
 
 buttonOpenPopUpAddCard.addEventListener('click', () => popupAddCard.open());
 
-buttonAvatarProfile.addEventListener('click', () => {
-  popupEditAvatar.open()
-})
+buttonAvatarProfile.addEventListener('click', () => popupEditAvatar.open())

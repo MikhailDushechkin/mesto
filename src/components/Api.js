@@ -34,6 +34,7 @@ export default class Api {
     .then(this._checkResponse)
   }
 
+  //удаление карточки
   deleteCard(id) {
     return fetch(`${this._url}/cards/${id}`, {
       method: 'DELETE',
@@ -42,6 +43,7 @@ export default class Api {
     .then(this._checkResponse)
   }
 
+  //установка лайка
   setLike(id) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: 'PUT',
@@ -50,6 +52,7 @@ export default class Api {
     .then(this._checkResponse)
   }
 
+  //удаление лайка
   deleteLike(id) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: 'DELETE',
