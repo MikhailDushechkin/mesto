@@ -47,7 +47,19 @@ function createNewCard(data, templateSelector) {
       popupWithOverlay.open(data.name, data.link);
     },
     handleLikeClick: () => {
-      initCard.toggleLike()
+      if(!initCard.checkLike()) {
+        api.setLike(data._id)
+        .then((data) => {
+          initCard.addLike(data)
+        })
+        .catch((err) => console.log(err))
+      } else {
+        api.deleteLike(data._id)
+        .then((data) => {
+          initCard.removeLike(data)
+        })
+        .catch((err) => console.log(err))
+      }
     },
     handleDeleteCardClick: () => {
       popupWithConfirm.confirm(() =>{
@@ -63,9 +75,9 @@ function createNewCard(data, templateSelector) {
       })
       })
       popupWithConfirm.open()
-    }},
+    }
+  },
     templateSelector,
-    api,
     userId
     );
 
@@ -99,11 +111,11 @@ const popupAddCard = new PopupWithForm(popupAddCardSelector,(item) => {
   api.addNewCard(item)
   .then((res) => {
     cardRender.addItem(createNewCard(res, templateSelector));
-    popupAddCard.close();
   })
   .catch((err) => console.log(err))
   .finally(() => {
     popupAddCard.renderLoading(false)
+    popupAddCard.close();
   })
   })
 
@@ -113,11 +125,11 @@ const popupEditProfile = new PopupWithForm(popupEditProfileSelector, (userData) 
     api.setUserData(userData)
     .then((data) => {
       userInfo.setUserInfo(data);
-      popupEditProfile.close();
     })
     .catch((err) => console.log(err))
     .finally(() => {
       popupEditProfile.renderLoading(false)
+      popupEditProfile.close();
     })
   })
 
@@ -127,11 +139,11 @@ const popupEditAvatar = new PopupWithForm(popupEditAvatarSelector, (userData) =>
   api.setUserAvatar(userData)
   .then((data) => {
     userInfo.setUserAvatar(data);
-    popupEditAvatar.close();
   })
   .catch((err) => console.log(err))
   .finally(() => {
     popupEditAvatar.renderLoading(false)
+    popupEditAvatar.close();
   })
 })
 
@@ -147,12 +159,11 @@ api.getInitialData()
   .catch((err) => console.log(err))
 
 buttonEditProfile.addEventListener('click', () => {
-  popupEditProfile.open();
   const {name, description} = userInfo.getUserInfo();
   inputName.focus();
   inputName.value = name;
   inputDescription.value = description;
-
+  popupEditProfile.open();
 });
 
 buttonOpenPopUpAddCard.addEventListener('click', () => popupAddCard.open());
