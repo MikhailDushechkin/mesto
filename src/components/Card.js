@@ -26,8 +26,8 @@ export default class Card {
   createCard() {
     this._element = this._getCardTemplate();
     const photoCardPhoto = this._element.querySelector('.photo-cards__photo');
-    this._likeB = this._element.querySelector('.photo-cards__button-like')
-    this._likeC = this._element.querySelector('.photo-cards__like-counter')
+    this._likeButton = this._element.querySelector('.photo-cards__button-like')
+    this._likeCount = this._element.querySelector('.photo-cards__like-counter')
 
     photoCardPhoto.src = this._link;
     this._element.querySelector('.photo-cards__text').textContent = this._name;
@@ -52,7 +52,7 @@ export default class Card {
   //счетчик лайков
   _setLikeCount() {
     if(this._likes.length > 0) {
-      this._likeC.textContent = this._likes.length;
+      this._likeCount.textContent = this._likes.length;
       this._element.querySelector('.photo-cards__description').classList.add('photo-cards__description_with-count')
     }
   }
@@ -60,7 +60,7 @@ export default class Card {
   //активный лайк
   _leaveActiveLike() {
     if(this._likes.find((data) => this._userId === data._id)) {
-      this._likeB.classList.add('photo-cards__button-like_active')
+      this._likeButton.classList.add('photo-cards__button-like_active')
     }
   }
 
@@ -83,19 +83,19 @@ export default class Card {
 
   //проверка активного лайка
   checkLike() {
-    return this._likeB.classList.contains('photo-cards__button-like_active')
+    return this._likeButton.classList.contains('photo-cards__button-like_active')
   }
 
   //поставить лайк, изменить счетчик
   addLike(data) {
-    this._likeB.classList.add('photo-cards__button-like_active')
-    this._likeC.textContent = data.likes.length
+    this._likeButton.classList.add('photo-cards__button-like_active')
+    this._likeCount.textContent = data.likes.length
   }
 
   //убрать лайк, изменить счетчик
   removeLike(data) {
-    this._likeB.classList.remove('photo-cards__button-like_active')
-    this._likeC.textContent = data.likes.length
+    this._likeButton.classList.remove('photo-cards__button-like_active')
+    this._likeCount.textContent = data.likes.length
   }
 
   //метод удаления карточки
