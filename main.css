@@ -19,6 +19,7 @@
 .photo-cards__item{position:relative}
 .photo-cards__photo{border-radius:10px 10px 0 0;display:flex;height:282px;-o-object-fit:cover;object-fit:cover;-o-object-position:50% 50%;object-position:50% 50%;width:100%}
 .photo-cards__description{align-items:center;background:#fff;border-radius:0 0 10px 10px;display:flex;justify-content:space-between;padding:25px 20px 31px 21px}
+.photo-cards__description_with-count{padding:20.5px 20px 26.5px 21px}
 .photo-cards__text{color:#000;font-family:inter,Arial,Helvetica,sans-serif;font-size:24px;font-weight:900;line-height:29px;margin:0;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .photo-cards__like-block{display:flex;flex-direction:column}
 .photo-cards__button-like{background:url(1ad06e85f169668a1f36.svg);background-position:50%;background-repeat:no-repeat;border:none;box-sizing:border-box;cursor:pointer;height:19px;padding:0;width:22px}.photo-cards__button-like:hover{opacity:.5}
